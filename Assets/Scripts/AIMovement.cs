@@ -12,6 +12,14 @@ public class AIMovement : MonoBehaviour
     private bool isRotatingRight = false;
     private bool isWalking = false;
 
+    //Need to make this not hard coded if multiple maps have different boundaries
+    /*private float maxBoundaryZ = 6.51f;
+    private float minBoundaryZ = -22.5f;
+    private float maxBoundaryX = 14.3f;
+    private float minBoundaryX = -15.99f;*/
+
+    //need invis walls anyways so players dont fall off
+
     Rigidbody rb;
 
     /* For Animations
@@ -53,12 +61,24 @@ public class AIMovement : MonoBehaviour
             * animator.SetBool("isRunning", true);
             */
         }
+
+        
+
         /* For Animations
         * if (isWalking == false) {
         *   animator.SetBool("isRunning", false);
         *  }
         */
 
+    }
+
+    //check to see if it is hitting a wall and stop it
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Obstacle")
+        {
+            Debug.Log("This is an obstacle!");
+        }
     }
 
     IEnumerator Wander()
