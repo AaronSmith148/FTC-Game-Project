@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class AIMovement : MonoBehaviour
 {
-    public float movementSpeed = 20f;
+    public float movementSpeed = 15f;
     public float rotationSpeed = 100f;
 
     private bool isWandering = false;
     private bool isRotatingLeft = false;
     private bool isRotatingRight = false;
     private bool isWalking = false;
+    //private bool isStuck = false;
 
     //Need to make this not hard coded if multiple maps have different boundaries
     /*private float maxBoundaryZ = 6.51f;
@@ -62,6 +63,11 @@ public class AIMovement : MonoBehaviour
             */
         }
 
+        /*if (isStuck == true)
+        {
+            StartCoroutine(Unstuck());
+        }*/
+
         
 
         /* For Animations
@@ -78,11 +84,14 @@ public class AIMovement : MonoBehaviour
         if (other.gameObject.tag == "Obstacle")
         {
             Debug.Log("This is an obstacle!");
+            //isStuck = true;
         }
     }
 
     IEnumerator Wander()
     {
+        Debug.Log("Starting Wander....");
+
         //Amount of time rotating
         int rotTime = Random.Range(1, 3);
 
@@ -106,6 +115,11 @@ public class AIMovement : MonoBehaviour
         yield return new WaitForSeconds(walkTime);
         isWalking = false;
 
+        /*if (isStuck == true)
+        {
+            yield break;
+        }*/
+
         //Let it turn
         yield return new WaitForSeconds(rotateWait);
 
@@ -124,5 +138,13 @@ public class AIMovement : MonoBehaviour
         }
         isWandering = false;
     }
+
+    /*IEnumerator Unstuck()
+    {
+        isStuck = false;
+        Debug.Log("Starting Unstuck...");
+        yield return new WaitForSeconds(2);
+        //isWandering = false;
+    }*/
 
 }
