@@ -49,6 +49,19 @@ public class PlayerConfigManager : MonoBehaviour
             pi.transform.SetParent(transform);
             playerConfigs.Add(new PlayerConfig(pi));
         }
+        if(pi.user.pairedDevices.Count > 1)
+        {
+            if (pi.user.pairedDevices[0].name == "Mouse" || pi.user.pairedDevices[0].name == "Keyboard")
+            {
+                return;
+            }
+            for (int i = 1; i < pi.user.pairedDevices.Count; i++)
+            {
+                pi.user.UnpairDevice(pi.user.pairedDevices.Last());
+            }
+            
+        }
+            
     }
 }
 

@@ -11,7 +11,7 @@ public class AIMovement : MonoBehaviour
     private bool isRotatingLeft = false;
     private bool isRotatingRight = false;
     private bool isWalking = false;
-    //private bool isStuck = false; //check if it is stuck
+    private bool isStuck = false; //check if it is stuck
 
     //Not needed with invis walls
     /*private float maxBoundaryZ = 6.51f;
@@ -64,10 +64,10 @@ public class AIMovement : MonoBehaviour
 
         //not working, but will check if the ai is stuck and starts a coroutine
 
-        /*if (isStuck == true)
+        if (isStuck == true)
         {
             StartCoroutine(Unstuck());
-        }*/
+        }
 
         
 
@@ -85,7 +85,7 @@ public class AIMovement : MonoBehaviour
         if (other.gameObject.tag == "Obstacle")
         {
             Debug.Log("This is an obstacle!");
-            //isStuck = true; //set is stuck to true
+            isStuck = true; //set is stuck to true
         }
     }
 
@@ -117,10 +117,10 @@ public class AIMovement : MonoBehaviour
         isWalking = false;
 
         //if the ai is stuck, break the coroutine
-        /*if (isStuck == true)
+        if (isStuck == true)
         {
             yield break;
-        }*/
+        }
 
         //Let it turn
         yield return new WaitForSeconds(rotateWait);
@@ -142,12 +142,11 @@ public class AIMovement : MonoBehaviour
     }
 
     //get the AI unstuck
-    /*IEnumerator Unstuck()
+    IEnumerator Unstuck()
     {
         isStuck = false;
         Debug.Log("Starting Unstuck...");
         yield return new WaitForSeconds(2);
-        //isWandering = false;
-    }*/
+    }
 
 }
