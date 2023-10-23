@@ -116,7 +116,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3726863299627355788}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -143,6 +143,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bf582e4a293316429681605b9b7f635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  range: 10
+  agent: {fileID: 5040634085820810790}
   centerPoint: {fileID: 0}
