@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class LingerAI : MonoBehaviour
+public class LingerAI : PoolableObject
 {
     public NavMeshAgent agent;
     public float lingerTime = 5;
