@@ -707,6 +707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1786835827}
   - component: {fileID: 1786835828}
+  - component: {fileID: 1786835829}
   m_Layer: 0
   m_Name: AIManager
   m_TagString: Untagged
@@ -744,6 +745,21 @@ MonoBehaviour:
   NumberOfAIToSpawn: 10
   AIPrefabs:
   - {fileID: 7255233988000671827, guid: bd5804a30a44d8f42bc979db9cefe8a2, type: 3}
+--- !u!114 &1786835829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786835826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f5abf79073c7c4793f9a5b51d1c215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumberOfAIToSpawn: 0
+  AIPrefabs:
+  - {fileID: 883451474763473473, guid: 1d25ffd028aa277409b04ee670b264d8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -2,20 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AISpawner : MonoBehaviour
+public class AISpawnerLinger : MonoBehaviour
 {
+    //I KNOW THIS SCRIPT IS REDUNDANT. Combining the two spawner scripts was going to take time I didn't have this week so this is my band-aid until after Wednesday :(
     public int NumberOfAIToSpawn;
-    public List<PatrolAI> AIPrefabs = new List<PatrolAI>();
+    public List<LingerAI> AIPrefabs = new List<LingerAI>();
 
     private UnityEngine.AI.NavMeshTriangulation Triangulation;
-    private Dictionary<int, ObjectPool> AIObjectPools = new Dictionary<int, ObjectPool>();
+    private Dictionary<int, ObjectPool> AIObjectPools2 = new Dictionary<int, ObjectPool>();
 
     private void Awake()
     {
         NumberOfAIToSpawn = Random.Range(5, 9);
         for (int i = 0; i < AIPrefabs.Count; i++)
         {
-            AIObjectPools.Add(i, ObjectPool.CreateInstance(AIPrefabs[i], NumberOfAIToSpawn));
+            AIObjectPools2.Add(i, ObjectPool.CreateInstance(AIPrefabs[i], NumberOfAIToSpawn));
         }
     }
 
@@ -46,20 +47,20 @@ public class AISpawner : MonoBehaviour
 
     private void DoSpawnAI(int SpawnIndex)
     {
-        PoolableObject poolableObject = AIObjectPools[SpawnIndex].GetObject();
+        PoolableObject poolableObject = AIObjectPools2[SpawnIndex].GetObject();
 
         if (poolableObject != null)
         {
-            PatrolAI patrolAI = poolableObject.GetComponent<PatrolAI>();
+            LingerAI LingerAI = poolableObject.GetComponent<LingerAI>();
 
             int VertexIndex = Random.Range(0, Triangulation.vertices.Length);
 
             UnityEngine.AI.NavMeshHit Hit;
             if (UnityEngine.AI.NavMesh.SamplePosition(Triangulation.vertices[VertexIndex], out Hit, 2f, 1))
             {
-                patrolAI.agent.Warp(Hit.position);
+                LingerAI.agent.Warp(Hit.position);
                 //Set the centerpoint and range here?
-                patrolAI.agent.enabled = true;
+                LingerAI.agent.enabled = true;
             }
         }
         else
@@ -68,3 +69,4 @@ public class AISpawner : MonoBehaviour
         }
     }
 }
+
