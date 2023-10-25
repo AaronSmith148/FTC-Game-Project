@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - Obstacle
+  - Bot
   layers:
   - Default
   - TransparentFX
