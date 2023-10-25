@@ -34,10 +34,14 @@ public class PlayerConfigManager : MonoBehaviour
     public void ReadyPlayer(int Index)
     {
         playerConfigs[Index].IsReady = true;
-        if((playerConfigs.Count <= MaxPlayers && playerConfigs.Count > 1) && playerConfigs.All(p => p.IsReady == true))
+        if (playerConfigs.All(p => p.IsReady == true))
+        {
+            SceneManager.LoadScene("Level1Testing");
+        }
+        /*if((playerConfigs.Count <= MaxPlayers && playerConfigs.Count > 1) && playerConfigs.All(p => p.IsReady == true))
         {
             SceneManager.LoadScene("SampleScene");
-        }
+        }*/
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
@@ -75,5 +79,6 @@ public class PlayerConfig
     public PlayerInput Input { get; set; } 
     public int PlayerIndex { get; set; }
     public bool IsReady { get; set; }
+    public int PlayerScore { get; set; }
     
 }
