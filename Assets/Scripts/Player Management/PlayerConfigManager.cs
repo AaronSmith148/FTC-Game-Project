@@ -12,6 +12,9 @@ public class PlayerConfigManager : MonoBehaviour
     [SerializeField]
     private int MaxPlayers = 4;
 
+    [SerializeField]
+    public string sceneToLoad = "SampleScene";
+
     public static PlayerConfigManager Instance { get; private set; }
     private void Awake()
     {
@@ -34,14 +37,10 @@ public class PlayerConfigManager : MonoBehaviour
     public void ReadyPlayer(int Index)
     {
         playerConfigs[Index].IsReady = true;
-        if (playerConfigs.All(p => p.IsReady == true))
+        if((playerConfigs.Count <= MaxPlayers && playerConfigs.Count > 1) && playerConfigs.All(p => p.IsReady == true))
         {
-            SceneManager.LoadScene("Level1Testing");
+            SceneManager.LoadScene(sceneToLoad);
         }
-        /*if((playerConfigs.Count <= MaxPlayers && playerConfigs.Count > 1) && playerConfigs.All(p => p.IsReady == true))
-        {
-            SceneManager.LoadScene("SampleScene");
-        }*/
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
