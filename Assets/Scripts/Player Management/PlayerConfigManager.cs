@@ -13,7 +13,7 @@ public class PlayerConfigManager : MonoBehaviour
     private int MaxPlayers = 4;
 
     [SerializeField]
-    public string sceneToLoad = "SampleScene";
+    public string sceneToLoad = "LevelOne";
 
     public static PlayerConfigManager Instance { get; private set; }
     private void Awake()
