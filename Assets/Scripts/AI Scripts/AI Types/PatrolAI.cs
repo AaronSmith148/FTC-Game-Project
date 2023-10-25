@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PatrolAI : MonoBehaviour
+public class PatrolAI : PoolableObject
 {
     public NavMeshAgent agent;
-    public float range; //radius of sphere
+    private float range = 50f; //radius of sphere
 
     public Transform centerPoint; //center of the area agent walks around in
 
@@ -14,6 +14,7 @@ public class PatrolAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        centerPoint = GameObject.Find("Centerpoint").transform;
     }
 
     // Update is called once per frame

@@ -69,7 +69,11 @@ public class AIMovement : MonoBehaviour
             StartCoroutine(Unstuck());
         }
 
-        
+        //Clamp velocity
+        if (rb.velocity.magnitude > movementSpeed)
+        {
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, movementSpeed);
+        }
 
         /* For Animations
         * if (isWalking == false) {
