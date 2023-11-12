@@ -145,4 +145,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 1515014057067067347}
   lingerTime: 5
-  range: 0
+  range: 20

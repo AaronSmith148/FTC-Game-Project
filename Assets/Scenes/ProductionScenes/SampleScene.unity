@@ -867,6 +867,8 @@ MonoBehaviour:
   NumberOfAIToSpawn: 0
   AIPrefabs:
   - {fileID: 303194940649519830, guid: a2db9f2083686c34b9840134ddba48d1, type: 3}
+  minAI: 5
+  maxAI: 9
 --- !u!114 &1112733991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -882,6 +884,8 @@ MonoBehaviour:
   NumberOfAIToSpawn: 0
   AIPrefabs:
   - {fileID: 6304319861161354812, guid: 848a28c9e254f6e409db52e971c0a7da, type: 3}
+  minAI: 5
+  maxAI: 9
 --- !u!1 &1231240420
 GameObject:
   m_ObjectHideFlags: 0

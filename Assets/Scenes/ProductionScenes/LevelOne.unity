@@ -4636,7 +4636,7 @@ Transform:
   m_GameObject: {fileID: 776778278}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8, y: 1.15, z: -7.83}
+  m_LocalPosition: {x: 105, y: 0, z: -969}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13360,6 +13360,8 @@ MonoBehaviour:
   NumberOfAIToSpawn: 0
   AIPrefabs:
   - {fileID: 303194940649519830, guid: a2db9f2083686c34b9840134ddba48d1, type: 3}
+  minAI: 12
+  maxAI: 18
 --- !u!114 &1959337258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13375,6 +13377,8 @@ MonoBehaviour:
   NumberOfAIToSpawn: 0
   AIPrefabs:
   - {fileID: 6304319861161354812, guid: 848a28c9e254f6e409db52e971c0a7da, type: 3}
+  minAI: 12
+  maxAI: 18
 --- !u!1001 &1977214262
 PrefabInstance:
   m_ObjectHideFlags: 0
