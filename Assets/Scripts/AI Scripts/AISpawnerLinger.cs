@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class AISpawnerLinger : MonoBehaviour
 {
-    //I KNOW THIS SCRIPT IS REDUNDANT. Combining the two spawner scripts was going to take time I didn't have this week so this is my band-aid until after Wednesday :(
+    //I KNOW THIS SCRIPT IS REDUNDANT. Combining them gives many crazy errors. If it ain't broke don't fix it
     public int NumberOfAIToSpawn;
     public List<LingerAI> AIPrefabs = new List<LingerAI>();
 
     private UnityEngine.AI.NavMeshTriangulation Triangulation;
     private Dictionary<int, ObjectPool> AIObjectPools2 = new Dictionary<int, ObjectPool>();
 
+    public int minAI;
+    public int maxAI;
+
     private void Awake()
     {
-        NumberOfAIToSpawn = Random.Range(5, 9);
+        NumberOfAIToSpawn = Random.Range(minAI, maxAI);
         for (int i = 0; i < AIPrefabs.Count; i++)
         {
             AIObjectPools2.Add(i, ObjectPool.CreateInstance(AIPrefabs[i], NumberOfAIToSpawn));
@@ -59,7 +62,6 @@ public class AISpawnerLinger : MonoBehaviour
             if (UnityEngine.AI.NavMesh.SamplePosition(Triangulation.vertices[VertexIndex], out Hit, 2f, 1))
             {
                 LingerAI.agent.Warp(Hit.position);
-                //Set the centerpoint and range here?
                 LingerAI.agent.enabled = true;
             }
         }

@@ -10,9 +10,12 @@ public class AISpawner : MonoBehaviour
     private UnityEngine.AI.NavMeshTriangulation Triangulation;
     private Dictionary<int, ObjectPool> AIObjectPools = new Dictionary<int, ObjectPool>();
 
+    public int minAI;
+    public int maxAI;
+
     private void Awake()
     {
-        NumberOfAIToSpawn = Random.Range(5, 9);
+        NumberOfAIToSpawn = Random.Range(minAI, maxAI);
         for (int i = 0; i < AIPrefabs.Count; i++)
         {
             AIObjectPools.Add(i, ObjectPool.CreateInstance(AIPrefabs[i], NumberOfAIToSpawn));
