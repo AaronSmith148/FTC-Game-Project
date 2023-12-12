@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class AIMovement : MonoBehaviour
+
+public class AIMovement : PoolableObject
 {
+    public NavMeshAgent agent;
+
     public float movementSpeed = 15f;
     public float rotationSpeed = 100f;
     public float isStuckSpeed = 50f;
@@ -26,6 +30,8 @@ public class AIMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        agent = GetComponent<NavMeshAgent>();
+
 
         /* For Animations
         * animator = GetComponent<Animator>();
