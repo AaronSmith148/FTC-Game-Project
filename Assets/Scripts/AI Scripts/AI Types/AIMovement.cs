@@ -6,18 +6,14 @@ public class AIMovement : MonoBehaviour
 {
     public float movementSpeed = 15f;
     public float rotationSpeed = 100f;
+    public float isStuckSpeed = 50f;
 
     private bool isWandering = false;
     private bool isRotatingLeft = false;
     private bool isRotatingRight = false;
     private bool isWalking = false;
     private bool isStuck = false; //check if it is stuck
-
-    //Not needed with invis walls
-    /*private float maxBoundaryZ = 6.51f;
-    private float minBoundaryZ = -22.5f;
-    private float maxBoundaryX = 14.3f;
-    private float minBoundaryX = -15.99f;*/
+    private bool gettingUnstuck = false;
 
     Rigidbody rb;
 
@@ -62,9 +58,9 @@ public class AIMovement : MonoBehaviour
         }
 
 
-        //not working, but will check if the ai is stuck and starts a coroutine
+        //Will check if the ai is stuck and starts a coroutine
 
-        if (isStuck == true)
+        if (isStuck == true && gettingUnstuck == false)
         {
             StartCoroutine(Unstuck());
         }
@@ -88,7 +84,9 @@ public class AIMovement : MonoBehaviour
     {
         if (other.gameObject.tag == "Obstacle")
         {
-            Debug.Log("This is an obstacle!");
+            //Debug.Log("This is an obstacle!");
+            // Disable the collider
+            this.GetComponent<CapsuleCollider>().enabled = false;
             isStuck = true; //set is stuck to true
         }
     }
@@ -126,7 +124,7 @@ public class AIMovement : MonoBehaviour
             yield break;
         }
 
-        //Let it turn
+        //Wait to turn
         yield return new WaitForSeconds(rotateWait);
 
         //Which way to turn, right or left
@@ -148,9 +146,44 @@ public class AIMovement : MonoBehaviour
     //get the AI unstuck
     IEnumerator Unstuck()
     {
-        isStuck = false;
         Debug.Log("Starting Unstuck...");
-        yield return new WaitForSeconds(2);
-    }
+        gettingUnstuck = true;
 
+        int stuckWait = 2;
+        float walkWait = 0.5f;
+        float rayMax = 4.0f;
+        //string targetTag = "Obstacle";
+
+        yield return new WaitForSeconds(stuckWait);
+
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, transform.forward);
+        //Debug.DrawRay(transform.position, transform.forward, transform.forward + rayMax);
+
+        while (isStuck)
+        {
+            // Perform the raycast
+            if (Physics.Raycast(ray, out hit, rayMax) && hit.collider.CompareTag("Obstacle"))
+            {
+                // Rotate the AI to try and get unstuck
+                transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+            }
+            else
+            {
+                // If not stuck anymore, exit the loop
+                yield return new WaitForSeconds(stuckWait);
+                isWalking = true;
+                yield return new WaitForSeconds(walkWait);
+                isWalking = false;
+                this.GetComponent<CapsuleCollider>().enabled = true;
+                gettingUnstuck = false;
+                isStuck = false;
+                isWandering = false;
+            }
+
+            // Update the ray's origin in each iteration to check for obstacles in front
+            ray = new Ray(transform.position, transform.forward);
+            yield return null; // This allows the coroutine to yield control back to the Update loop
+        }
+    }
 }
