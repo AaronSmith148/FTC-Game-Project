@@ -15,6 +15,8 @@ public class PlayerConfigManager : MonoBehaviour
     [SerializeField]
     public string sceneToLoad = "LevelOne";
 
+    private Dictionary<string, int> mapVotes = new Dictionary<string, int>();
+
     public static PlayerConfigManager Instance { get; private set; }
     private void Awake()
     {
@@ -27,20 +29,14 @@ public class PlayerConfigManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(Instance);
             playerConfigs = new List<PlayerConfig>();
+            mapVotes.Add("SampleScene", 0);
+            mapVotes.Add("LevelOne", 0);
+            mapVotes.Add("LevelTwo", 0);
         }
     }
     public List<PlayerConfig> GetPlayerConfigs()
     {
         return playerConfigs;
-    }
-
-    public void ReadyPlayer(int Index)
-    {
-        playerConfigs[Index].IsReady = true;
-        if((playerConfigs.Count <= MaxPlayers && playerConfigs.Count > 1) && playerConfigs.All(p => p.IsReady == true))
-        {
-            SceneManager.LoadScene(sceneToLoad);
-        }
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
@@ -66,7 +62,44 @@ public class PlayerConfigManager : MonoBehaviour
         }
             
     }
+
+    public void SetLevelChoice(int index, string levelChoice)
+    {
+        playerConfigs[index].LevelChoice = levelChoice;
+    }
+
+    private void LevelSelectVote()
+    {
+        if(playerConfigs.All(p => p.LevelChoice != null))
+        {
+            foreach(PlayerConfig player in playerConfigs)
+            {
+                int votes;
+                mapVotes.TryGetValue(player.LevelChoice, out votes);
+                mapVotes[player.LevelChoice] = ++votes;
+            }
+
+            sceneToLoad = mapVotes.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+            Debug.Log("Voted Scene:" + sceneToLoad);
+
+        }
+
+
+    }
+
+    public void ReadyPlayer(int Index)
+    {
+        playerConfigs[Index].IsReady = true;
+        if ((playerConfigs.Count <= MaxPlayers && playerConfigs.Count > 1) && playerConfigs.All(p => p.IsReady == true))
+        {
+            LevelSelectVote();
+            Debug.Log("Loading Scene:" + sceneToLoad);
+            SceneManager.LoadScene(sceneToLoad);
+        }
+    }
 }
+
+
 
 public class PlayerConfig
 {
@@ -79,5 +112,6 @@ public class PlayerConfig
     public int PlayerIndex { get; set; }
     public bool IsReady { get; set; }
     public int PlayerScore { get; set; }
-    
+    public string LevelChoice { get; set; }
+
 }
