@@ -32,7 +32,7 @@ public class AIMovement : PoolableObject
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
 
-
+        agent.enabled = true;
         /* For Animations
         * animator = GetComponent<Animator>();
         */
