@@ -27,6 +27,7 @@ public class InitializeLevel : MonoBehaviour
             var menu = Instantiate(PlayerScorePrefab, rootMenu.transform);
             menu.GetComponent<PlayerScoreUIController>().setPlayerIndex(playerConfigs[i].PlayerIndex);
         }
-    }
 
+        GameObject.Find("EndScreenUI").GetComponent<Canvas>().enabled = false;
+    }
 }

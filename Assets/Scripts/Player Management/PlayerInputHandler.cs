@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    private PlayerConfig playerConfig;
+    public PlayerConfig playerConfig;
     private PlayerController playerController;
 
     private PlayerInputSystem controls;
@@ -63,6 +65,7 @@ public class PlayerInputHandler : MonoBehaviour
                     playerConfig.PlayerScore += 1;
                     Destroy(hit.collider.gameObject);
                     canPunch = false;
+                    PlayerConfigManager.Instance.PlayersInGame.Remove(hit.collider.gameObject.GetComponent<PlayerInputHandler>().playerConfig.PlayerIndex);
                 }
                 else if (hit.collider.gameObject.tag == "Bot")
                 {
@@ -87,6 +90,12 @@ public class PlayerInputHandler : MonoBehaviour
                 canPunch = true;
                 punchtimer = 2f;
             }
+        }
+        //end game when last player remains
+        if(PlayerConfigManager.Instance.PlayersInGame.Count == 1)
+        {
+            PlayerConfigManager.Instance.EndRound();
+
         }
     }
 }

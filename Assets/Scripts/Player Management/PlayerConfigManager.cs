@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class PlayerConfigManager : MonoBehaviour
 {
@@ -16,6 +20,8 @@ public class PlayerConfigManager : MonoBehaviour
     public string sceneToLoad = "LevelOne";
 
     private Dictionary<string, int> mapVotes = new Dictionary<string, int>();
+
+    public List<int> PlayersInGame;
 
     public static PlayerConfigManager Instance { get; private set; }
     private void Awake()
@@ -58,9 +64,7 @@ public class PlayerConfigManager : MonoBehaviour
             {
                 pi.user.UnpairDevice(pi.user.pairedDevices.Last());
             }
-            
-        }
-            
+        }    
     }
 
     public void SetLevelChoice(int index, string levelChoice)
@@ -78,24 +82,42 @@ public class PlayerConfigManager : MonoBehaviour
                 mapVotes.TryGetValue(player.LevelChoice, out votes);
                 mapVotes[player.LevelChoice] = ++votes;
             }
-
             sceneToLoad = mapVotes.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
             Debug.Log("Voted Scene:" + sceneToLoad);
-
         }
-
-
     }
 
     public void ReadyPlayer(int Index)
     {
         playerConfigs[Index].IsReady = true;
+        PlayersInGame.Add(Index);
         if ((playerConfigs.Count <= MaxPlayers && playerConfigs.Count > 1) && playerConfigs.All(p => p.IsReady == true))
         {
             LevelSelectVote();
             Debug.Log("Loading Scene:" + sceneToLoad);
             SceneManager.LoadScene(sceneToLoad);
         }
+    }
+
+    public void EndRound()
+    {
+        StartCoroutine("EnableEndScreenUI");
+        
+    }
+
+    private IEnumerator EnableEndScreenUI()
+    {
+
+        GameObject.Find("PlayersUI").GetComponent<Canvas>().enabled = false;
+        GameObject.Find("EndScreenUI").GetComponent<Canvas>().enabled = true;
+
+        GameObject.Find("WinnerText").GetComponent<TextMeshProUGUI>().text = "Player " + (PlayersInGame[0] + 1).ToString() + " Wins!";
+        GameObject.Find("WinnerScore").GetComponent<TextMeshProUGUI>().text = "Score: " + playerConfigs[PlayersInGame[0]].PlayerScore;
+
+        yield return new WaitForSeconds(5);
+
+        Destroy(GameObject.Find("PlayerConfigurationManager"));
+        SceneManager.LoadScene("Lobby");
     }
 }
 
@@ -113,5 +135,4 @@ public class PlayerConfig
     public bool IsReady { get; set; }
     public int PlayerScore { get; set; }
     public string LevelChoice { get; set; }
-
 }
